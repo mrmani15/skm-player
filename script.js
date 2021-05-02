@@ -2,6 +2,7 @@
 const canvas = document.getElementById("canvas");
 const audio = document.querySelector('audio');
 const btn = document.getElementById('btn');
+const songTiming = document.getElementById('timing')
 
 // context
 const ctx = canvas.getContext("2d");
@@ -10,7 +11,7 @@ const ctx = canvas.getContext("2d");
 const color1 = "rgb(253, 252, 252)";
 const color2 = "grey";
 const color3 = "red";
-const numberOfBars = 300;
+const numberOfBars = 300
 const move = []
 const line = []
 let reps = 0
@@ -84,13 +85,16 @@ function bars (i){
   ctx.lineTo(i * thickness + thickness / 2, line[i]);
   ctx.stroke();
 }
+function bar (){
+  for (let i = 0; i < numberOfBars; i++) {
+    bars(i)
+  }
+}
 function fillColor(time) {
   if (time === 250) {
     clearInterval(timer)
   }
-  for (let i = 0; i < numberOfBars; i++) {
-    bars(i)
-  }
+  bar()
   for (let i = 0; i < time; i=i+2) {
     ctx.beginPath();
     ctx.strokeStyle = color3;
@@ -100,14 +104,22 @@ function fillColor(time) {
     ctx.stroke()
     display()
   }
+  if (audio.currentTime == audio.duration) {
+    btn.classList.remove('fa-pause')
+    btn.classList.add('fa-redo')
+    bars()
+    reps = 0
+  }
+  
 }
 
 const timer = setInterval(() => {
   if (!isPaused) {
     reps = reps + 1
     fillColor(reps)
+    timing()
   }
-}, 500)
+}, 90)
 
 function playPause() {
   if (btn.classList.contains('fa-play')) {
@@ -115,7 +127,13 @@ function playPause() {
     isPaused = false
     btn.classList.remove('fa-play')
     btn.classList.add('fa-pause')
-  } else {
+  } else if (btn.classList.contains('fa-redo')){
+    audio.currentTime = 0
+    btn.classList.remove('fa-redo')
+    btn.classList.add('fa-pause')
+    audio.play()
+    isPaused = false
+  } else  {
     btn.classList.remove('fa-pause')
     btn.classList.add('fa-play')
     audio.pause()
@@ -139,6 +157,9 @@ function clicking(event) {
   }
 }
 
+function timing(){
+  songTiming.textContent = `${audio.currentTime.toFixed(2)} / ${audio.duration.toFixed(2)}`
+}
 for (let i = 0; i < numberOfBars; i++) {
   randomvalue()
   bars(i)
@@ -146,5 +167,6 @@ for (let i = 0; i < numberOfBars; i++) {
 
 document.addEventListener('click', clicking)
 btn.addEventListener('click', playPause)
- 
+
 display()
+
