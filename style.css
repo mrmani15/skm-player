@@ -1,0 +1,30 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+h2{
+  margin-top: 1em;
+  text-align: center;
+  color: blueviolet;
+}
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 0; 
+}
+#canvas{
+  background-color: rgb(253, 252, 252);
+}
+
+.btn-play{
+  display: block;
+  cursor: pointer;
+  padding: 1em;
+  border-radius: 40%;
+  border: 1px solid grey;
+  outline: none;
+}
