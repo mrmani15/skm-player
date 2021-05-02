@@ -16,7 +16,7 @@ const line = []
 let reps = 0
 let isPaused = true
 let percentage = 0
-const thickness = 900 / numberOfBars;
+const thickness = canvas.width / numberOfBars;
 
 // functions
 function randomNo (min, max){
@@ -56,28 +56,49 @@ function drawCircle(x,y,s, color) {
   ctx.fillStyle = color;
   ctx.fill();
 }
+function display() {
+  tag("black", "Introduction", 65, 50, 50, 25, 140, 40);
+  tag("violet", "Polite", 225, 50, 205, 25, 100, 40);
+  tag("blue", "Energy", 450, 50, 435, 25, 100, 40)
+  tag("green", "Rockk", 630, 80, 610, 53, 90, 40)
+  tag("teal", "Rapport", 750, 40, 730, 17, 115, 34)
 
+
+  drawLine('black', 125, 65, 125, 200)
+  drawLine('violet', 250, 65, 250, 200)
+  drawLine('blue', 485, 65, 485, 200)
+  drawLine('green', 655, 93, 655, 200)
+  drawLine('teal', 780, 53, 780, 200)
+
+  drawCircle(125, 200, 5, 'black')
+  drawCircle(250, 200, 5, 'violet')
+  drawCircle(485, 200, 5, 'blue')
+  drawCircle(655, 200, 5, 'green')
+  drawCircle(780, 200, 5, 'teal')
+}
+function bars (i){
+  ctx.beginPath();
+  ctx.strokeStyle = i % 2 ? color1 : color2;
+  ctx.lineWidth = thickness;
+  ctx.moveTo(i * thickness + thickness / 2, move[i]);
+  ctx.lineTo(i * thickness + thickness / 2, line[i]);
+  ctx.stroke();
+}
 function fillColor(time) {
   if (time === 250) {
     clearInterval(timer)
   }
   for (let i = 0; i < numberOfBars; i++) {
-    ctx.beginPath();
-    randomvalue()
-    ctx.strokeStyle = i % 2 ? color1 : color2;
-    ctx.lineWidth = thickness;
-    ctx.moveTo(i * thickness + thickness / 2, move[i]);
-    ctx.lineTo(i * thickness + thickness / 2, line[i]);
-
-    ctx.stroke();
+    bars(i)
   }
-  for (let i = 0; i < time; i++) {
+  for (let i = 0; i < time; i=i+2) {
     ctx.beginPath();
-    ctx.strokeStyle = i % 2 ? color1 : color3;
+    ctx.strokeStyle = color3;
     ctx.lineWidth = thickness;
     ctx.moveTo(i * thickness + thickness / 2, move[i]);
     ctx.lineTo(i * thickness + thickness / 2, line[i]);
     ctx.stroke()
+    display()
   }
 }
 
@@ -118,37 +139,12 @@ function clicking(event) {
   }
 }
 
-
-
 for (let i = 0; i < numberOfBars; i++) {
-  ctx.beginPath();
   randomvalue()
-  ctx.strokeStyle = i % 2 ? color1 : color2;
-  ctx.lineWidth = thickness;
-  ctx.moveTo(i * thickness + thickness / 2, move[i]);
-  ctx.lineTo(i * thickness + thickness / 2, line[i]);
-  ctx.stroke();
+  bars(i)
 }
 
 document.addEventListener('click', clicking)
 btn.addEventListener('click', playPause)
-
-tag("black", "energy", 65, 50, 50, 25, 100, 40 );
-tag("violet", "energy", 190, 50, 175, 25, 100, 40);
-tag("blue", "energy", 450, 50, 435, 25, 100, 40)
-tag("green", "rockk", 630, 80, 610, 53, 90, 40)
-tag("teal", "energy", 750, 40, 730, 18, 100, 35)
-
-
-drawLine('black', 100, 65, 100, 200)
-drawLine('violet', 225, 65, 225, 200)
-drawLine('blue', 485, 65, 485, 200)
-drawLine('green', 655, 93, 655, 200)
-drawLine('teal', 780, 53, 780, 200)
-
-drawCircle(100,200,5, 'black')
-drawCircle(225, 200, 5, 'violet')
-drawCircle(485, 200, 5, 'blue')
-drawCircle(655, 200, 5, 'green')
-drawCircle(780, 200, 5, 'teal')
-
+ 
+display()
